@@ -1,0 +1,14 @@
+div.register {
+    display: flex;
+    max-width: 35em;
+    margin: 2em auto;
+}
+div.register form {
+    padding: 1.5em;
+}
+div.register input {
+    padding: .5em;
+    border-radius: 5px;
+    border: 1px solid #bdbdbd;
+    margin: .5em 0;
+}
