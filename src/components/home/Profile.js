@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setUser } from '../../redux/actions';
 import { loggedIn } from '../../utils/user';
+import { API_URL } from '../../constants';
+import '../../styles/profile.css';
 
 class Profile extends React.Component {
     async componentDidMount(){
@@ -17,6 +19,7 @@ class Profile extends React.Component {
                 <p>Last Name: {this.props.user.lastName}</p>
                 <p>Email: {this.props.user.email}</p>
                 <p>Username: {this.props.user.username}</p>
+                <img src={`${API_URL}/images/${this.props.user.image}`} alt="Profile"/>
             </div>
         );
     }

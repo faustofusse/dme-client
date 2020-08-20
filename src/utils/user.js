@@ -34,6 +34,7 @@ export const getUser = async (token = null) => {
     if (!token) token = localStorage.getItem('x-auth-token');
     const config = { headers: { 'x-auth-token': token } };
     const response = await axios.get(`${USERS_API}`, config);
+    console.log(response.data.user);
     return response.data.user;
 }
 

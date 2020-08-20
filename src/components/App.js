@@ -13,7 +13,6 @@ import { getUser, loggedIn } from '../utils/user';
 class App extends React.Component {
     async componentDidMount(){
         if (await loggedIn()) {
-            console.log('USER LOGGED IN!');
             const user = await getUser();
             this.props.onSetUser(user);
         }
