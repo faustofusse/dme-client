@@ -42,3 +42,22 @@ export const register = async (user) => {
     const response = await axios.post(`${USERS_API}/register`, user);
     return response.data;
 }
+
+export const handleFileUpload = (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+    const token = localStorage.getItem('x-auth-token');
+    const formData = new FormData();
+    formData.append('image', file, file.name);
+    const request = new XMLHttpRequest();
+    request.open('POST', `${API_URL}/images/user`);
+    request.setRequestHeader('x-auth-token', token);
+    request.upload.onprogress = (e) => {
+        progress(e.lengthComputable, e.loaded, e.total);
+    };
+    request.onload = () => {
+        const data = JSON.parse(request.response);
+        if (data.success) load(data);
+        else error(data.message);
+    };
+    request.send(formData);
+    return { abort: () => { request.abort(); abort(); } };
+}
