@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FilePond, registerPlugin } from "react-filepond";
 
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
@@ -12,6 +12,7 @@ import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import "filepond/dist/filepond.min.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import 'filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css';
+import { useSelector } from "react-redux";
 
 registerPlugin(FilePondPluginImageExifOrientation, 
     FilePondPluginImagePreview, FilePondPluginImageResize, 
@@ -19,17 +20,21 @@ registerPlugin(FilePondPluginImageExifOrientation,
     FilePondPluginImageValidateSize, FilePondPluginImageTransform);
 
 const Files = (props) => {
+  const token = useSelector(state => state.token);
+  const newUser = useRef({});
+  const setNewUser = user => newUser.current = user;
+  
   return (
     <div className="App">
       <FilePond
         files={[]}
-        onprocessfile={props.onProcess}
-        server={{ process: props.process }}
+        onprocessfile={(e,f) => props.onUpload(newUser.current)}
+        server={{ process: (...params) => props.uploadImage(...params, token).then(u => setNewUser(u)) }}
 
         acceptedFileTypes={['image/jpeg', 'image/png']}
         instantUpload={false}
         allowMultiple={false}
-        labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+        labelIdle='Drag & Drop your image or <span class="filepond--label-action">Browse</span>'
 
         stylePanelLayout={'compact circle'}
         styleLoadIndicatorPosition={'center bottom'}

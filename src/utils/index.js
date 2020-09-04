@@ -1,57 +1,57 @@
-import axios from 'axios';
-import { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, ON_LOAD, OFF_LOAD, NOTIFICATION_ERROR } from '../constants';
+import { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, NOTIFICATION_ERROR, API_URL } from '../constants';
 import { setNotification } from '../redux/actions/notification';
+import { stopLoading, startLoading } from '../redux/actions';
+import axios from 'axios';
 
-export const call = ( method ,url ,param ,type ) => {
+export const call = (method, url, param, config, type, callback = null) => {
     param = param != null ? param : '';
+    config = config != null ? config : {};
     return dispatch => {    
-        dispatch({type: ON_LOAD})
-        return callService( method ,url ,param )
+        dispatch(startLoading());
+        return callService(method, url, param, config)
         .then(response => {
-            dispatch({type: OFF_LOAD})
-            if(response.data.error){
-                dispatch(setNotification( NOTIFICATION_ERROR, response.data.error ))    
-            }else{
-                dispatch({  
-                    type : type,
-                    payload : response.data.success
-                })
+            if(!response.data.success){
+                console.log('Error:', response.data.message);
+                alert(response.data.message);
+                return dispatch(setNotification(NOTIFICATION_ERROR, response.data.message));    
             }
+            dispatch({ type: type, payload: response.data.success });
+            if (callback) return callback(response.data, dispatch); // SACAR RETURN
+            return response.data;
         })
-        .catch(err => {
-            console.log(JSON.stringify("Error: "+err))
-            dispatch({type: OFF_LOAD})
-        });
+        .finally(() => dispatch(stopLoading()))
+        .catch(err => {console.log('Error:', err); dispatch(stopLoading())});
     };
 };
 
-export const callServiceWithDispatch = ( method ,url ,param ,type, dispatch ) => {
-    param = param != null ? param : '';
-    dispatch({type: ON_LOAD})
-    return callService( method ,url ,param )
-    .then(response => {
-        if(response.data.error){
-            dispatch(setNotification( NOTIFICATION_ERROR, response.data.error ))    
-        }else{
-            dispatch({  
-                type : type,
-                payload : response.data.success
-            })
-            dispatch({type: OFF_LOAD})
+export const uploadFile = (url, fieldName, token, file, load, error, progress) => {
+    return dispatch => {
+        const config = {
+            headers: { 'x-auth-token': token },
+            onUploadProgress: (e) => progress(e.lengthComputable, e.loaded, e.total),
         }
-    })
-    .catch(err => {
-        console.log(JSON.stringify("Error: "+err))
-        dispatch({type: OFF_LOAD})
-    });
-};
+        const formData = new FormData();
+        formData.append(fieldName, file, file.name);
+        return axios.post(url, formData, config).then(response => {
+            if (!response.data.success) return error(response.data.message);
+            load(response.data);
+            return response.data.success;
+        }).catch(e => error(e.message));
+    };
+}
 
-const callService = (method, url, param ) => {
+export const getUserByUsername = async (username) => {
+    const response = await axios.get(`${API_URL}/users/${username}`);
+    return response.data.user;
+}
+
+const callService = (method, url, param, config) => {
     console.log(`Llamando al servicio ${url}, method ${method}, parametro ${JSON.stringify(param)}`);
     switch (method){
-        case METHOD_GET: return axios.get(`${url}/${param}`);
-        case METHOD_POST: return axios.post( url , param);
-        case METHOD_PUT: return axios.put(url, param);
-        case METHOD_DELETE: return axios.delete(`${url}/${param}`);
+        case METHOD_GET: return axios.get(`${url}/${param}`, config);
+        case METHOD_POST: return axios.post(url, param, config);
+        case METHOD_PUT: return axios.put(url, param, config);
+        case METHOD_DELETE: return axios.delete(`${url}/${param}`, config);
+        default: return null;
     }
 }

@@ -1,9 +1,7 @@
 import React from 'react';
-import { handleFileUpload } from '../../utils/user';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Files from './Files';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons'
-
 import '../../styles/image.css';
 
 const Image = (props) => {
@@ -13,8 +11,8 @@ const Image = (props) => {
                 <FontAwesomeIcon icon={props.edit ? faTimes : faPen} />
             </button>
             <img src={props.src} alt="Profile"/>
-            <div id="upload" style={{display: props.edit ? 'block' : 'none'}}>
-                <Files process={handleFileUpload} onProcess={props.onUpload}/>
+            <div id="upload" style={{ display: props.edit ? 'block' : 'none' }}>
+                <Files uploadImage={props.uploadImage} onUpload={props.onUpload}/>
             </div>
         </div>
     );

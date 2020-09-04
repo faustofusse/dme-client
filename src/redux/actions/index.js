@@ -1,1 +1,4 @@
-export { setUser } from './user';
+export { setUser, getUser, login, register, uploadImage } from './user';
+export { startLoading, stopLoading } from './loading'; 
+export { setToken, removeToken } from './token';
+export { setNotification } from './notification';

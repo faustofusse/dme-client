@@ -1,7 +1,6 @@
 import React from 'react';
-import { loggedIn, login, getUser } from '../../utils/user';
 import { connect } from 'react-redux';
-import { setUser } from '../../redux/actions';
+import { login } from '../../redux/actions/user';
 
 class Login extends React.Component {
     constructor(props){
@@ -11,20 +10,13 @@ class Login extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    async componentDidMount() {
-        if (await loggedIn()) this.props.history.push('/profile');
-    }
-
     async handleSubmit(e) {
         e.preventDefault(); 
-        const response = await login(this.state.email, this.state.password);
-        if (!response.success) return alert(response.message);
-        const user = await getUser(response.token);
-        this.props.onSetUser(user);
-        this.props.history.push('/profile');
+        const { email, password } = this.state;
+        await this.props.login(email, password);
     }
 
-    handleChange(e) {
+    async handleChange(e) {
         this.setState({ [e.target.name] : e.target.value });
     }
 
@@ -43,8 +35,6 @@ class Login extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    onSetUser: user => dispatch(setUser(user)),
-});
-
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = state => ({ user: state.user, token: state.token });
+const mapDispatchToProps = { login };
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

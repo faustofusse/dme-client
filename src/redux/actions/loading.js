@@ -1,13 +1,5 @@
-import { ON_LOAD, OFF_LOAD} from '../../constants';
+import { ON_LOAD, OFF_LOAD} from './actionTypes';
 
-export const inLoading = () => {
-return dispatch({
-        type : ON_LOAD,
-    });
-}
+export const startLoading = () =>  ({ type : ON_LOAD, });
 
-export const inLoading = () => {
-return dispatch({
-        type : OFF_LOAD,
-    });
-}
+export const stopLoading = () => ({ type : OFF_LOAD, });

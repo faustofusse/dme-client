@@ -1,6 +1,7 @@
 import React from 'react';
+import { register } from '../../redux/actions/user';
+import { connect } from 'react-redux';
 import '../../styles/auth.css';
-import { loggedIn, register } from '../../utils/user';
 
 class Register extends React.Component {
     constructor(props){
@@ -10,20 +11,17 @@ class Register extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    async componentDidMount() {
-        if (await loggedIn()) this.props.history.push('/profile');
+    async handleChange(e) {
+        this.setState({ [e.target.name] : e.target.value });
     }
 
     async handleSubmit(e) {
         e.preventDefault();
-        const response = await register(this.state);
-        if (!response.success) return alert(response.message);
-        alert('User registered!!');
-        this.props.history.push('/login');
-    }
-
-    handleChange(e) {
-        this.setState({ [e.target.name] : e.target.value });
+        this.props.register(this.state, (response, d) => {
+            if (!response.success) return alert(response.message);
+            alert('User registered!');
+            this.props.history.push('/login');
+        });
     }
 
     render(){
@@ -46,4 +44,6 @@ class Register extends React.Component {
     }
 }
 
-export default Register;
+const mapStateToProps = state => ({ user: state.user });
+const mapDispatchToProps = { register };
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

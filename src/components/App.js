@@ -1,40 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { setToken, getUser } from '../redux/actions/index';
+import { connect } from 'react-redux';
 import Home from './home/Home';
 import Profile from './profile/Profile';
 import Login from './auth/Login';
 import Register from './auth/Register';
 import Header from './layout/Header';
-import { connect } from 'react-redux';
-import { setUser } from '../redux/actions/index';
+import Page from './page/Page';
+import PrivateRoute from './routes/PrivateRoute';
+import Loading from './loading/Loading';
 import '../styles/styles.css';
-import { getUser, loggedIn } from '../utils/user';
 
-class App extends React.Component {
-    async componentDidMount(){
-        if (await loggedIn()) {
-            const user = await getUser();
-            this.props.onSetUser(user);
+const App = (props) => {
+    const logged = props.token !== null;
+
+    useEffect(() => {
+        if (!props.token){
+            const token = localStorage.getItem('x-auth-token');
+            if (!token) return;
+            props.onSetToken(token);
+            props.getUser(token);
         }
-    }
+    }, []);
 
-    render() {
-        return (
-            <BrowserRouter>
-                <Header/>
-                <Switch>
-                    <Route exact path="/" render={Home} />
-                    <Route exact path="/login" render={(props) => (<Login {...props}/>)} />
-                    <Route exact path="/register" render={(props) => (<Register {...props}/>)} />
-                    <Route exact path="/profile" render={(props) => (<Profile {...props}/>)} />
-                </Switch>
-            </BrowserRouter>
-        );
-    }
+    return (
+        <BrowserRouter>
+            <Loading/>
+            <Header/>
+            <Switch>
+                <Route exact path="/" render={Home} />
+                <PrivateRoute exact path="/login" condition={!logged} redirect={'/profile'} component={Login} />
+                <PrivateRoute exact path="/register" condition={!logged} redirect={'/profile'} component={Register} />
+                <PrivateRoute exact path="/profile" condition={logged} redirect={'/login'} component={Profile} />
+                <Route exact path="/:username" render={(props) => (<Page {...props}/>)} />
+            </Switch>
+        </BrowserRouter>
+    );
 }
-
-const mapDispatchToProps = dispatch => ({
-    onSetUser: user => dispatch(setUser(user)),
-});
-
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = state => ({ token: state.token, user: state.user });
+const mapDispatchToProps = { getUser, onSetToken: token => dispatch => dispatch(setToken(token)) };
+export default connect(mapStateToProps, mapDispatchToProps)(App);

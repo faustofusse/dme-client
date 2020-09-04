@@ -10,6 +10,11 @@ header {
     align-items: center;
 }
 
+header button {
+  padding: .2em;
+  border-radius: 10px;
+}
+
 #grad {
   position: absolute;
   left: 0;
