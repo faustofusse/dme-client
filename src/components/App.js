@@ -11,6 +11,7 @@ import Page from './page/Page';
 import PrivateRoute from './routes/PrivateRoute';
 import Loading from './loading/Loading';
 import '../styles/styles.css';
+import '../styles/auth.css';
 
 const App = (props) => {
     const logged = props.token !== null;
@@ -38,6 +39,7 @@ const App = (props) => {
         </BrowserRouter>
     );
 }
+
 const mapStateToProps = state => ({ token: state.token, user: state.user });
 const mapDispatchToProps = { getUser, onSetToken: token => dispatch => dispatch(setToken(token)) };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

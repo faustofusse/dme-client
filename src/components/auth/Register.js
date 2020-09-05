@@ -1,49 +1,38 @@
-import React from 'react';
-import { register } from '../../redux/actions/user';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import '../../styles/auth.css';
+import { register } from '../../redux/actions/user';
 
-class Register extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = { firstName: '', lastName: '', username: '', email: '', password: '', repeatPassword: '' };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+const Register = props => {
+    const [user, setUser] = useState({});
+    const handleChange = async e => setUser(Object.assign(user, { [e.target.name] : e.target.value }));
 
-    async handleChange(e) {
-        this.setState({ [e.target.name] : e.target.value });
-    }
-
-    async handleSubmit(e) {
+    const handleRegister = async e => {
         e.preventDefault();
-        this.props.register(this.state, (response, d) => {
+        props.register(user, (response, d) => {
             if (!response.success) return alert(response.message);
             alert('User registered!');
-            this.props.history.push('/login');
+            props.history.push('/login');
         });
     }
 
-    render(){
-        return (
-            <div className="register">
-                <form onSubmit={this.handleSubmit} className="modal-content animate">
-                    <h2>Register</h2>
-                    <hr />
-                    <input type="text" value={this.state.firstName} name="firstName" placeholder="First Name" onChange={this.handleChange} required/>
-                    <input type="text" value={this.state.lastName} name="lastName" placeholder="Last Name" onChange={this.handleChange} required/>
-                    <input type="email" value={this.state.email} name="email" placeholder="Email" onChange={this.handleChange} required/>
-                    <input type="text" value={this.state.username} name="username" placeholder="Username" onChange={this.handleChange} required/>
-                    <input type="password" value={this.state.password} name="password" placeholder="Password" onChange={this.handleChange} required/>
-                    <input type="password" value={this.state.repeatPassword} name="repeatPassword" placeholder="Repeat Password" onChange={this.handleChange} required/>
-                    {/* <label><input type="checkbox" name="remember" />Remember me.</label> */}
-                    <input type="submit" value="Register" className="btn btn-primary pull-right" />
-                </form>
-            </div>
-        )
-    }
+    return (
+        <div className="register">
+            <form onSubmit={handleRegister} className="modal-content animate">
+                <h2>Register</h2>
+                <hr />
+                <input type="text" name="firstName" placeholder="First Name" onChange={handleChange} required/>
+                <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} required/>
+                <input type="email" name="email" placeholder="Email" onChange={handleChange} required/>
+                <input type="text" name="username" placeholder="Username" onChange={handleChange} required/>
+                <input type="password" name="password" placeholder="Password" onChange={handleChange} required/>
+                <input type="password" name="repeatPassword" placeholder="Repeat Password" onChange={handleChange} required/>
+                {/* <label><input type="checkbox" name="remember" />Remember me.</label> */}
+                <input type="submit" value="Register" className="btn btn-primary pull-right" />
+            </form>
+        </div>
+    );
 }
 
 const mapStateToProps = state => ({ user: state.user });
 const mapDispatchToProps = { register };
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(null, mapDispatchToProps)(Register);
