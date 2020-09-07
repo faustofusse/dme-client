@@ -9,3 +9,5 @@ export const SET_TOKEN = 'SET_TOKEN';
 export const REMOVE_TOKEN = 'REMOVE_TOKEN';
 // Notifications
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
+export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
+export const REMOVE_ERROR = 'REMOVE_ERROR';

@@ -9,6 +9,24 @@ div.register form {
 div.register input {
     padding: .5em;
     border-radius: 5px;
-    border: 1px solid #bdbdbd;
+    border: 1px solid #424242;
     margin: .5em 0;
+    width: 100%;
+    color: '#424242';
+}
+
+form > div {
+    padding:0;
+    width: 100%;
+}
+
+form small {
+    color: #d32f2f;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }

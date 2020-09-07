@@ -1,5 +1,5 @@
-import { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, NOTIFICATION_ERROR, API_URL } from '../constants';
-import { setNotification } from '../redux/actions/notification';
+import { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, NOTIFICATION_ERROR, API_URL, NOTIFICATION_SUCCESS } from '../constants';
+import { setNotification } from '../redux/actions';
 import { stopLoading, startLoading } from '../redux/actions';
 import axios from 'axios';
 
@@ -11,11 +11,11 @@ export const call = (method, url, param, config, type, callback = null) => {
         return callService(method, url, param, config)
         .then(response => {
             if(!response.data.success){
-                console.log('Error:', response.data.message);
-                alert(response.data.message);
-                return dispatch(setNotification(NOTIFICATION_ERROR, response.data.message));    
+                console.log(response.data);
+                return dispatch(setNotification(NOTIFICATION_ERROR, response.data.message, response.data.errors));    
             }
             dispatch({ type: type, payload: response.data.success });
+            dispatch(setNotification(NOTIFICATION_SUCCESS, response.data.message));
             if (callback) return callback(response.data, dispatch); // SACAR RETURN
             return response.data;
         })
