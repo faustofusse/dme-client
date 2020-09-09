@@ -2,29 +2,43 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { logout } from '../../redux/actions/user';
 import { connect } from 'react-redux';
+import { removeNotification } from '../../redux/actions';
+import { API_URL } from '../../constants';
 import '../../styles/header.css';
 
 const Header = (props) => {
     const history = useHistory();
+    const imgUrl = props.user && props.user.image ? `${API_URL}/images/${props.user.image}` : './images/user.png';
 
-    const register = () => history.push('/register');
-    const login = () => history.push('/login');
+    const goto = async route => {
+        await props.onRemoveNotification();
+        history.push(route);
+    }
 
     return (
         <header>
-            <div id="controls" className="controls"></div>
-            <div id="container" className="container">
-                <div id="output" className="container"></div>
+            <div id="background">
+                <div id="controls" className="controls"></div>
+                <div id="container" className="container">
+                    <div id="output" className="container"></div>
+                </div>
             </div>
             <div id="grad"></div>
-            <button onClick={login}>Login</button>
-            <button onClick={register}>Register</button>
-            <div> - </div>
-            <button onClick={() => props.logout(props.token)}>Logout</button>
+            <div id="sign" className="corner" style={{ display: props.token ? 'none' : 'flex' }}>
+                <button onClick={() => goto('/login')}>Login</button>
+                <span> | </span>
+                <button onClick={() => goto('/register')}>Register</button>
+            </div>
+            <div id="userInfo" className="corner" style={{ display: props.token ? 'flex' : 'none' }}>
+                <button id="logout" onClick={() => props.logout(props.token)}>Logout</button>
+                <button onClick={() => goto('/profile')}>
+                    <img src={imgUrl} alt="profile"/>
+                </button>
+            </div>
         </header>
     )    
 }
 
-const mapStateToProps = state => ({ token: state.token });
-const mapDispatchToProps = { logout };
+const mapStateToProps = state => ({ token: state.token, user: state.user });
+const mapDispatchToProps = { logout, onRemoveNotification: () => dispatch => dispatch(removeNotification()) };
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

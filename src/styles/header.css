@@ -1,18 +1,47 @@
 @import url(https://fonts.googleapis.com/css?family=Gabriela|Dosis:200);
 
 header {
-    position: relative;
-    min-height: 10em;
-    padding: 3em;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  min-height: 10em;
+  padding: 3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 header button {
-  padding: .2em;
-  border-radius: 10px;
+  border: none;
+  color: #fff;
+  background-color: transparent;
+}
+
+button#logout { margin-right: .8em; }
+
+.corner {
+  position: absolute;
+  margin: 1em;
+  top: 0;
+  right: 0;
+}
+
+div#userInfo img {
+  width: 3em;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+div#sign span {
+  color: #fff;
+}
+
+div#sign button {
+  margin: 0 .5em;
+}
+
+div#userInfo, div#sign {
+  display: flex;
+  align-items: center;
 }
 
 #grad {
@@ -43,14 +72,14 @@ header button {
   height: 100%;
   width: 100%;
   z-index: -1;
+  background-color: #501324;
 }
 
 .controls {
-  font-smoothing: subpixel-antialiased;
+  /* font-smoothing: subpixel-antialiased; */
   position: absolute;
   right: 20px;
   top: 0;
-  
 }
 
 .hide {

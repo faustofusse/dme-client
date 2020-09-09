@@ -7,8 +7,6 @@ export default function reducer(state = initialState, {type, payload}){
         case SET_NOTIFICATION: return payload;
         case REMOVE_NOTIFICATION: return initialState;
         case REMOVE_ERROR:
-            // let newState = Object.
-            // delete newState[payload];
             let newState = Object.assign({}, state);
             const { [payload]: value, ...errors } = newState.errors;
             newState.errors = errors;
