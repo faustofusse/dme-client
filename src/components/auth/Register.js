@@ -14,15 +14,11 @@ const Register = props => {
 
     const handleRegister = async e => {
         e.preventDefault();
-        props.register(user, (response, d) => {
-            if (!response.success) return alert(response.message);
-            alert('User registered!');
-            props.history.push('/login');
-        });
+        props.register(user, (response, d) => response.success ? props.history.push('/login') : null);
     }
 
     return (
-        <div className="register">
+        <div className="auth-form">
             <form onSubmit={handleRegister} className="modal-content animate">
                 <h2>Register</h2>
                 <hr />

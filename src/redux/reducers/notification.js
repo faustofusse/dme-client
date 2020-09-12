@@ -10,7 +10,6 @@ export default function reducer(state = initialState, {type, payload}){
             let newState = Object.assign({}, state);
             const { [payload]: value, ...errors } = newState.errors;
             newState.errors = errors;
-            console.log('Remove error', newState);
             return newState;
         default :  return state;
     }

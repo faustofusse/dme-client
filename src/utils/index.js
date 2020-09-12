@@ -3,7 +3,7 @@ import { setNotification } from '../redux/actions';
 import { stopLoading, startLoading } from '../redux/actions';
 import axios from 'axios';
 
-export const call = (method, url, param, config, type, callback = null) => {
+export const call = (method, url, param, config, actionType, callback = null) => {
     param = param != null ? param : '';
     config = config != null ? config : {};
     return dispatch => {    
@@ -11,12 +11,12 @@ export const call = (method, url, param, config, type, callback = null) => {
         return callService(method, url, param, config)
         .then(response => {
             if(!response.data.success){
-                console.log(response.data);
-                return dispatch(setNotification(NOTIFICATION_ERROR, response.data.message, response.data.errors));    
+                dispatch(setNotification(NOTIFICATION_ERROR, response.data.message, response.data.errors));    
+                return callback ? callback(response.data, dispatch) : response.data;
             }
-            dispatch({ type: type, payload: response.data.success });
             dispatch(setNotification(NOTIFICATION_SUCCESS, response.data.message));
-            if (callback) return callback(response.data, dispatch); // SACAR RETURN
+            if (actionType) dispatch({ type: actionType, payload: response.data.success });
+            if (callback) return callback(response.data, dispatch);
             return response.data;
         })
         .finally(() => dispatch(stopLoading()))

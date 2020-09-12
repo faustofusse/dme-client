@@ -19,7 +19,7 @@ const Login = props => {
     }
 
     return (
-        <div className="register">
+        <div className="auth-form">
             <form onSubmit={handleLogin} className="modal-content animate" autoComplete="off"> 
                 <h2>Login</h2>
                 <hr />

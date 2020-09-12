@@ -6,6 +6,7 @@ import Home from './home/Home';
 import Profile from './profile/Profile';
 import Login from './auth/Login';
 import Register from './auth/Register';
+import Verify from './auth/Verify';
 import Header from './layout/Header';
 import Page from './page/Page';
 import PrivateRoute from './routes/PrivateRoute';
@@ -34,6 +35,7 @@ const App = (props) => {
                 <PrivateRoute exact path="/login" condition={!logged} redirect={'/profile'} component={Login} />
                 <PrivateRoute exact path="/register" condition={!logged} redirect={'/profile'} component={Register} />
                 <PrivateRoute exact path="/profile" condition={logged} redirect={'/login'} component={Profile} />
+                <Route exact path="/verify/:token" render={(props) => (<Verify {...props}/>)} />
                 <Route exact path="/:username" render={(props) => (<Page {...props}/>)} />
             </Switch>
         </BrowserRouter>

@@ -1,12 +1,12 @@
-div.register {
+div.auth-form {
     display: flex;
     max-width: 35em;
     margin: 2em auto;
 }
-div.register form {
+div.auth-form form {
     padding: 1.5em;
 }
-div.register input {
+div.auth-form input {
     padding: .5em;
     border-radius: 5px;
     border: 1px solid #424242;
