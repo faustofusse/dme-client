@@ -13,6 +13,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import Loading from './loading/Loading';
 import '../styles/styles.css';
 import '../styles/auth.css';
+import '../styles/notifier.css';
 
 const App = (props) => {
     const logged = props.token !== null;

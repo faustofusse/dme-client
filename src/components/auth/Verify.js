@@ -26,7 +26,6 @@ const Verify = props => {
         const { password, repeatPassword } = user;
         props.verify(token, password, repeatPassword, (response) => {
             if (response.success) props.history.push('/login');
-            else alert(response.message);
         });
     };
 
