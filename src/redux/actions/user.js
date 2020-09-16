@@ -10,6 +10,7 @@ export const setUser = (user) => ({ type: SET_USER, payload: user });
 export const login = (email, password) => {
     const params = { email, password };
     return call(METHOD_POST, `${API_URL}/users/login`, params, null, SET_USER, (response, dispatch) => {
+        if (!response.success) return;
         localStorage.setItem('x-auth-token', response.token);
         dispatch(setToken(response.token));
     });

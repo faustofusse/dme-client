@@ -19,7 +19,7 @@ const Register = props => {
 
     return (
         <div className="auth-form">
-            <form onSubmit={handleRegister} className="modal-content animate">
+            <form onSubmit={handleRegister} className="modal-content animate"> 
                 <h2>Register</h2>
                 <hr />
                 <Input type="text" name="firstName" placeholder="First Name" onChange={handleChange} errors={props.notification.errors} />
