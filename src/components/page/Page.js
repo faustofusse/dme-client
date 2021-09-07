@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getUserByUsername } from '../../utils';
-import { API_URL } from '../../constants';
+
+const API_URL = process.env.API_URL;
 
 export default class Page extends Component {
     constructor(props) {

@@ -1,9 +1,11 @@
 import { SET_USER, REMOVE_TOKEN } from './actionTypes';
-import { API_URL, METHOD_POST, METHOD_GET } from '../../constants';
+import { METHOD_POST, METHOD_GET } from '../../constants';
 import { call, uploadFile } from '../../utils';
 import { removeToken, setToken } from './token';
 
 const authHeaders = (token) => ({ headers: { 'x-auth-token': token } });
+
+const API_URL = process.env.API_URL;
 
 export const setUser = (user) => ({ type: SET_USER, payload: user });
 

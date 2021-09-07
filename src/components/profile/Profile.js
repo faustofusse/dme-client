@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { getUser, uploadImage, setUser } from '../../redux/actions';
-import { API_URL } from '../../constants';
 import Image from './Image';
 
 import '../../styles/profile.css';
+
+const API_URL = process.env.API_URL;
 
 const Profile = (props) => {
     const [editImage, setEditImage] = useState(false);

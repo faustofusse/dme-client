@@ -3,8 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { logout } from '../../redux/actions/user';
 import { connect } from 'react-redux';
 import { removeNotification } from '../../redux/actions';
-import { API_URL } from '../../constants';
 import '../../styles/header.css';
+
+const API_URL = process.env.API_URL;
 
 const Header = (props) => {
     const history = useHistory();

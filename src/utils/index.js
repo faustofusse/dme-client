@@ -1,7 +1,9 @@
-import { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, NOTIFICATION_ERROR, API_URL, NOTIFICATION_SUCCESS } from '../constants';
+import { METHOD_GET, METHOD_POST, METHOD_PUT, METHOD_DELETE, NOTIFICATION_ERROR, NOTIFICATION_SUCCESS } from '../constants';
 import { setNotification } from '../redux/actions';
 import { stopLoading, startLoading } from '../redux/actions';
 import axios from 'axios';
+
+const API_URL = process.env.API_URL;
 
 export const call = (method, url, param, config, actionType, callback = null) => {
     param = param != null ? param : '';

@@ -1,5 +1,5 @@
 // import axios from 'axios';
-// import { API_URL } from '../constants';
+// const API_URL = process.env.API_URL;
 
 // const USERS_API = `${API_URL}/users`;
 
