@@ -3,7 +3,7 @@ import { setNotification } from '../redux/actions';
 import { stopLoading, startLoading } from '../redux/actions';
 import axios from 'axios';
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const call = (method, url, param, config, actionType, callback = null) => {
     param = param != null ? param : '';

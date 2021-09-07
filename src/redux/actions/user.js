@@ -5,7 +5,7 @@ import { removeToken, setToken } from './token';
 
 const authHeaders = (token) => ({ headers: { 'x-auth-token': token } });
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const setUser = (user) => ({ type: SET_USER, payload: user });
 

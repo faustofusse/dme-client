@@ -5,7 +5,7 @@ import Image from './Image';
 
 import '../../styles/profile.css';
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Profile = (props) => {
     const [editImage, setEditImage] = useState(false);

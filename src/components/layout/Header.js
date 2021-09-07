@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { removeNotification } from '../../redux/actions';
 import '../../styles/header.css';
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
 
 const Header = (props) => {
     const history = useHistory();
